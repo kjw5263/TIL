@@ -49,7 +49,7 @@ function App() {
 }
 ```
 React.useState() 함수를 사용 시 콘솔은 [0, f] 배열형태로 반환한다.
-- 0 : `let counter=0`과 같은 초기값
+- 0 : `const counter=0`과 같은 초기값
 - f : counter을 변경시킬 함수
 
 이는 let 변수를 선언하고, function countUp() 함수를 쓰는 것과 같은 의미임.
@@ -61,11 +61,23 @@ function App() {
 }
 ```
 
-**그럼 굳이 modifier 역할(함수)은 왜** 필요한가? count = 123; 으로 재할당하면 안될까?
+#### 그럼 굳이 modifier 역할(함수)은 왜 필요한가?
+count = 123; 으로 재할당하면 안될까?
 <br> modifier() 는 **값의 재할당**과 **리렌더링 과정**을 포함하고 있다. 값의 재할당, 렌더링 두 줄의 소스코드를 작성하는 것보다, 소스코드 한 줄로 값의 수정과 동시에 렌더링 트리거를 일으켜주는 함수이기 때문에 사용한다.
 
+#### const는 상수변수라서 값 재할당이 안되는거 아닌가?
+[공식문서](https://reactnative.dev/docs/intro-react#:~:text=You%20might%E2%80%99ve%20noticed,of%20isHungry.) 에 따르면, modifier 함수가 호출되면, 컴포넌트 자체가 리렌더링 된다. 
+그럼 `App` 함수가 재실행 되면서 useState의 변수도 수정된 값으로 설정되는 것이다.
+이게 react.js 의 핵심!!
 
-
+#### 값을 변경하는 다른 방법
+현재 state 값을 이용해 다음 state를 계산해내는 방법 중 첫 번째 방법보다 두 번째 방식으로 적는게 더 안전하다.
+현재값을 이용해서 계산한다는 것을 보장하기 때문이다.
+```
+setCounter(counter + 1);                // 직접 값 전달하기
+setCounter((current) => current + 1);   // 함수 이용하기
+setFlipped((current) => !current);      // boolean 타입
+```
 
 <br><br>
 
@@ -91,3 +103,6 @@ React가 실제 DOM이 아닌 가상DOM을 이용하기 때문인데, `가상DOM
 ### reference
 - virtual-DOM : https://github.com/Matt-Esch/virtual-dom
 - react의 렌더링 알고리즘 : https://www.huskyhoochu.com/virtual-dom/
+
+### 기타
+- state 연습문제 : 단위변환기 (link)
